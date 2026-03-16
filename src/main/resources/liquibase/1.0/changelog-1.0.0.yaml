@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-table
+      author: xeyal
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true}}
+              - column: {name: name, type: VARCHAR(255)}
+              - column: {name: active, type: BOOLEAN}
+              - column: {name: role, type: VARCHAR(20)}
+
+  - changeSet:
+      id: create-books-table
+      author: xeyal
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true}}
+              - column: {name: title, type: VARCHAR(255)}
+              - column: {name: stock, type: INT}
+
+  - changeSet:
+      id: create-reservations-table
+      author: xeyal
+      changes:
+        - createTable:
+            tableName: reservations
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true}}
+              - column: {name: user_id, type: BIGINT}
+              - column: {name: book_id, type: BIGINT}
+              - column: {name: status, type: VARCHAR(20)}
+              - column: {name: created_at, type: TIMESTAMP}
