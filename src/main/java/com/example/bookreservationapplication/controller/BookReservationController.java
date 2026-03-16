@@ -4,6 +4,7 @@ import com.example.bookreservationapplication.dao.Entity.BookEntity;
 import com.example.bookreservationapplication.dao.Entity.ReservationEntity;
 import com.example.bookreservationapplication.dao.Entity.UserEntity;
 import com.example.bookreservationapplication.dto.ReservationRequest;
+import com.example.bookreservationapplication.dto.ResponseDto;
 import com.example.bookreservationapplication.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +20,17 @@ public class BookReservationController {
     private final BookService bookService;
 
     @PostMapping("/reservations")
-    public ResponseEntity<String> createReservation(@RequestBody ReservationRequest request) {
+    public ResponseEntity<ResponseDto> createReservation(@RequestBody ReservationRequest request) {
         bookService.createReservation(request.getUserId(), request.getBookId());
-        return ResponseEntity.ok("Reservation successfully created");
+        return ResponseEntity.ok(new ResponseDto("Reservation successfully created. Waiting for admin approval."));
     }
 
     @PostMapping("/reservations/{resId}/approve")
-    public ResponseEntity<String> approveReservation(@PathVariable Long resId) {
-        bookService.approveReservation(resId);
-        return ResponseEntity.ok("Reservation approved");
+    public ResponseEntity<ResponseDto> approveReservation(
+            @PathVariable Long resId,
+            @RequestHeader Long adminId) {
+        bookService.approveReservation(resId, adminId);
+        return ResponseEntity.ok(new ResponseDto("Reservation has been approved by admin."));
     }
 
     @GetMapping("/users/{userId}/reservations")

@@ -12,9 +12,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
 
     int countByUserIdAndStatus(Long userId, ReservationStatus status);
-
     List<ReservationEntity> findByStatusAndCreatedAtBefore(ReservationStatus status, LocalDateTime time);
 
     List<ReservationEntity> findByUserId(Long userId);
-
 }
